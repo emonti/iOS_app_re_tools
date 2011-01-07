@@ -24,7 +24,6 @@ void hook(id _self, SEL _cmd, id arg) {
 
 void hook_setup(void)
 {
-  id cl = objc_getClass("UIWindow");
-  HookObjC(cl, @selector(makeKeyAndVisible), 
+  HookObjC(objc_getClass("UIWindow"), @selector(makeKeyAndVisible), 
            (IMP) hook, (IMP *) &hook_orig);
 }
