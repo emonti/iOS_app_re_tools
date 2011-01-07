@@ -1,4 +1,5 @@
-/* phoshizzle.m by eric monti
+/* 
+ * phoshizzle.dylib by eric monti
  *
  * Hook [NSObject init] and watch children get created at runtime in the logs.
  *

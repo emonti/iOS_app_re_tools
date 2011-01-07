@@ -1,3 +1,12 @@
+/*
+ * phoshizzle2.dylib by eric monti
+ *
+ * A basic hook PoC designed to make Just Light turn the screen red instead 
+ * of white.
+ *
+ * compile with -dynamiclib -init _hook_setup
+ */
+
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import <objc/runtime.h>
