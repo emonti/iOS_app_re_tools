@@ -2,9 +2,9 @@
 
 Miscellaneous tools and bits of code written for experimenting with iOS reversing and library injection.
 
-An article and interview I did at pauldotcom includes (much) more info.
-
 The library injection examples are configured for Just Light Flashlight (a free download), but are generic enough to have interesting results with other apps as well. See the plist files for hints.
+
+An article and interview I did at pauldotcom includes (much) more info.
 
 see: http://pauldotcom.com/wiki/index.php/Episode226#Guest_Tech_Segment:_Eric_Monti_on_iPhone_Application_Reversing_and_Rootkits
 
