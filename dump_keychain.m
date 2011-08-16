@@ -68,7 +68,7 @@ int main(int argc, char **argv)
 
     if (argc > 2 || (argc == 2 && (dumpent=strncmp(argv[1], "-p", 2) != 0))) {
         fprintf(stderr, "Usage: %s [-p]\n", argv[0]);
-        fprintf(stderr, "  -p dumps entitlements xml for use with ldid\n");
+        fprintf(stderr, "  -p dumps entitlements plist for use with ldid\n");
         exit(1);
     } else if (dumpent == 0) {
         dump_entitlements_from_db();
