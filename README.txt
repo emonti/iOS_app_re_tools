@@ -4,6 +4,10 @@ Miscellaneous reversing and hacking tools for iOS reversing and library injectio
 
 The library injection examples are configured for Just Light Flashlight (a free download), but are generic enough to have interesting results with other apps as well. See the plist files for hints.
 
+An article and interview I did at pauldotcom includes (much) more info.
+
+see: http://pauldotcom.com/wiki/index.php/Episode226#Guest_Tech_Segment:_Eric_Monti_on_iPhone_Application_Reversing_and_Rootkits
+
 == Requirements:
 
 The included code mostly requires a jailbroken phone. MobileSubstrate is also good to have, at least to get started testing library injection.
