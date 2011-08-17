@@ -5,8 +5,7 @@ IPHONE_DIR=/var/mobile
 
 LIBLDFLAGS=-framework Foundation -undefined warning -flat_namespace -DDEBUG 
 
-PROGS=\
-      phoshizzle.dylib\
+PROGS=phoshizzle.dylib\
       phoshizzle2.dylib\
       archinfo\
       cryptinfo\
@@ -25,7 +24,7 @@ phoshizzle2.dylib: phoshizzle2.m
 
 # dump keychain is built with armv6 since ldid only supports this arch
 dump_keychain: dump_keychain.m
-	$(CC) -o $@ -arch armv6 $< -framework Foundation -framework Security -lobjc -lsqlite3 -bind_at_load
+	$(CC) -o $@ -arch armv6 $< -framework Foundation -framework Security -lsqlite3
 
 dump_plist: dump_plist.m
 	$(CC) $(CFLAGS) -o $@ $< -framework Foundation
