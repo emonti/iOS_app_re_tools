@@ -1,6 +1,7 @@
 #import <Foundation/Foundation.h>
 #import <Security/Security.h>
-#import "sqlite3.h"
+#import <sqlite3.h>
+#import <unistd.h>
 
 void dump_keychain(char *name, id secClass)
 {
