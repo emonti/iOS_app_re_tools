@@ -12,7 +12,7 @@ TOOLCHAIN_DIR=$(ROOT)/toolchain
 SYSROOT = $(ROOT)/sdk
 
 BIN=$(TOOLCHAIN_DIR)/usr/bin
-GCC_BIN = $(BIN)/gcc-4.2
+GCC_BIN = $(BIN)/gcc
 
 
 # You may want a thin binary if you plan to use ldid for debugging
