@@ -29,8 +29,8 @@ dump_keychain: dump_keychain.m
 dump_plist: dump_plist.m
 	$(CC) $(CFLAGS) -o $@ $< -framework Foundation
 
-cryptinfo: cryptinfo.c macho-tools.c
-	$(CC) $(CFLAGS) -o $@ cryptinfo.c macho-tools.c
+cryptinfo: cryptinfo.c
+	$(CC) $(CFLAGS) -o $@ $<
 
 archinfo: archinfo.c
 	$(CC) $(CFLAGS) -o $@ $<
