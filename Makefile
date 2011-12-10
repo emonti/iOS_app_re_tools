@@ -24,7 +24,7 @@ phoshizzle2.dylib: phoshizzle2.m
 
 # dump keychain is built with armv7 since ldid only supports this arch
 dump_keychain: dump_keychain.m
-	$(CC) -o $@ -arch armv7 $< -framework Foundation -framework Security -lsqlite3
+	$(CC) -o $@ $(CFLAGS) $< -framework Foundation -framework Security -lsqlite3
 
 dump_plist: dump_plist.m
 	$(CC) $(CFLAGS) -o $@ $< -framework Foundation
