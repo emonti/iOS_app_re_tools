@@ -168,7 +168,7 @@ int main(int argc, char **argv) {
     char *input;
     uint32_t i=0, nfat_arch;
     HDR *header;
-
+    char *fname = argv[1];
 
     while((ch = getopt(argc,argv, "?hp")) != -1) {
       switch(ch) {
@@ -188,7 +188,7 @@ int main(int argc, char **argv) {
     if (argc != 1)
       usage(progname);
 
-    fd = open(argv[0], O_RDWR);
+    fd = open(fname, O_RDWR);
     assert(fd > -1);
 
     fsize = lseek(fd, 0, SEEK_END);
