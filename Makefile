@@ -22,9 +22,13 @@ phoshizzle.dylib: phoshizzle.m
 phoshizzle2.dylib: phoshizzle2.m
 	$(CC) -o $@ $(CFLAGS) $< -dynamiclib -init _hook_setup $(LIBLDFLAGS)
 
-# dump keychain is built with armv7 since ldid only supports this arch
 dump_keychain: dump_keychain.m
 	$(CC) -o $@ $(CFLAGS) $< -framework Foundation -framework Security -lsqlite3
+
+# target dump_keychain with armv6 macho section only - ldid fat support sux
+dump_keychain_armv6: dump_keychain.m
+	$(CC) -o $@ -arch armv6 $< -framework Foundation -framework Security -lsqlite3
+
 
 dump_plist: dump_plist.m
 	$(CC) $(CFLAGS) -o $@ $< -framework Foundation
@@ -39,5 +43,7 @@ push:
 	scp $(PROGS) $(PLISTS) $(IPHONE_ADDR):$(IPHONE_DIR)
 
 clean:
-	rm -f *.o $(PROGS)
+	rm -f *.o $(PROGS) dump_keychain_armv6
 
+codesign: dump_keychain
+	codesign -f -s "iPhone Developer" --entitlements keychain.xcent dump_keychain

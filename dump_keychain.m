@@ -2,6 +2,7 @@
 #import <Security/Security.h>
 #import <sqlite3.h>
 #import <unistd.h>
+#include <arpa/inet.h>
 
 void dump_keychain(char *name, id secClass)
 {
@@ -20,28 +21,29 @@ void dump_keychain(char *name, id secClass)
 } 
 
 
-void dump_result_as_plist(sqlite3_stmt *stmt) {
-    printf("<plist version=\"1.0\"><dict><key>keychain-access-groups</key><array>");
+void dump_result_as_plist(sqlite3_stmt *stmt, FILE *output)
+{
+    fprintf(output, "<plist version=\"1.0\"><dict><key>keychain-access-groups</key><array>");
     while(sqlite3_step(stmt) == SQLITE_ROW)
-        printf("\n  <string>%s</string>", sqlite3_column_text(stmt, 0));
-    printf("\n</array></dict></plist>\n");
+        fprintf(output, "\n  <string>%s</string>", sqlite3_column_text(stmt, 0));
+    fprintf(output, "\n</array></dict></plist>\n");
 }
 
 
-int dump_entitlements_from_db()
+int dump_entitlements_from_db(FILE *output)
 {
     int ret;
     sqlite3 *kcdb;
     sqlite3_stmt *stmt;
-    
+
     if (sqlite3_open("/var/Keychains/keychain-2.db", &kcdb) == SQLITE_OK) {
         const char *query_stmt="SELECT DISTINCT agrp FROM genp "
                                "UNION SELECT DISTINCT agrp FROM inet "
                                "UNION SELECT DISTINCT agrp FROM cert "
                                "UNION SELECT DISTINCT agrp FROM keys";
-        
+
         if (sqlite3_prepare_v2(kcdb, query_stmt, -1, &stmt, NULL) == SQLITE_OK) {
-            dump_result_as_plist(stmt);
+            dump_result_as_plist(stmt, output);
             sqlite3_finalize(stmt);
             ret = 0;
         } else {
@@ -56,18 +58,37 @@ int dump_entitlements_from_db()
     return(ret);
 }
 
+int dump_entitlements_from_db_to_xcent(char *outfile) {
+    int ret=1;
+    FILE *outf;
+    if ((outf=fopen(outfile, "w"))) {
+        long start;
+        uint32_t len;
+        unsigned char header[8] = {0xfa,0xde,0x71,0x71,0,0,0,0};
+        start = ftell(outf);
+        fwrite(header ,8,1,outf);
+        ret = dump_entitlements_from_db(outf);
+        len = htonl((uint32_t) ftell(outf) - start);
+        fseek(outf, 4, SEEK_SET);
+        fwrite(&len,4,1,outf);
+        fprintf(stderr, "Wrote %u bytes to %s\n", ntohl(len), outfile);
+        fclose(outf);
+    }
+    return(ret);
+}
 
 void usage(char *pname) {
     fprintf(stderr, "Usage: %s [hpagIick]\n", pname);
     fprintf(stderr, " options:\n"
-                    "   -?,-h  Show this help message\n"
-                    "      -p  Dump entitlements plist for ldid and exit\n"
-                    "      -a  Dump all keychains (default)\n"
-                    "      -g  Dump General Passwords\n"
-                    "      -I  Dump Internet Passwords\n"
-                    "      -i  Dump Identities\n"
-                    "      -c  Dump Certificates\n"
-                    "      -k  Dump Keys\n");
+                    "   -?,-h         Show this help message\n"
+                    "   -p            Dump entitlements xml (stdout) for ldid and exit\n"
+                    "   -P out.xcent  Dump entitlements xcent for codesign and exit\n"
+                    "   -a            Dump all keychains (default)\n"
+                    "   -g            Dump General Passwords\n"
+                    "   -I            Dump Internet Passwords\n"
+                    "   -i            Dump Identities\n"
+                    "   -c            Dump Certificates\n"
+                    "   -k            Dump Keys\n");
 }
 
 int main(int argc, char **argv) 
@@ -76,10 +97,12 @@ int main(int argc, char **argv)
     id pool=[NSAutoreleasePool new];
     int ch;
 
-    while ((ch = getopt(argc, argv, "?hpagiIck")) != -1) {
+    while ((ch = getopt(argc, argv, "?hpP:agiIck")) != -1) {
         switch(ch) {
             case 'p':
-                exit(dump_entitlements_from_db());
+                exit(dump_entitlements_from_db(stdout));
+            case 'P':
+                exit(dump_entitlements_from_db_to_xcent(optarg));
             case 'a': all=true; break;
             case 'g': genp=true; break;
             case 'I': inet=true; break;
