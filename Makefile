@@ -22,9 +22,9 @@ phoshizzle.dylib: phoshizzle.m
 phoshizzle2.dylib: phoshizzle2.m
 	$(CC) -o $@ $(CFLAGS) $< -dynamiclib -init _hook_setup $(LIBLDFLAGS)
 
-# dump keychain is built with armv6 since ldid only supports this arch
+# dump keychain is built with armv7 since ldid only supports this arch
 dump_keychain: dump_keychain.m
-	$(CC) -o $@ -arch armv6 $< -framework Foundation -framework Security -lsqlite3
+	$(CC) -o $@ -arch armv7 $< -framework Foundation -framework Security -lsqlite3
 
 dump_plist: dump_plist.m
 	$(CC) $(CFLAGS) -o $@ $< -framework Foundation
