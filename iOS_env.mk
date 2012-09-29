@@ -12,12 +12,12 @@ TOOLCHAIN_DIR=$(ROOT)/toolchain
 SYSROOT = $(ROOT)/sdk
 
 BIN=$(TOOLCHAIN_DIR)/usr/bin
-GCC_BIN = $(BIN)/gcc
+GCC_BIN = $(BIN)/llvm-gcc-4.2
 
 
 # You may want a thin binary if you plan to use ldid for debugging
 # entitlements.
-CFLAGS= -arch armv6 -arch armv7
+CFLAGS=-I./missing_headers -arch armv6 -arch armv7
 
 CC = $(GCC_BIN) -Os -Wimplicit -isysroot $(SYSROOT)
 

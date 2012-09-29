@@ -29,6 +29,11 @@ dump_keychain: dump_keychain.m
 dump_keychain_armv6: dump_keychain.m
 	$(CC) -o $@ -arch armv6 $< -framework Foundation -framework Security -lsqlite3
 
+lsos: lsos.c
+	$(CC) $(CFLAGS) -o $@ $<
+
+testcert: testcert.m
+	$(CC) $(CFLAGS) -o $@ $< -framework Foundation -framework Security
 
 dump_plist: dump_plist.m
 	$(CC) $(CFLAGS) -o $@ $< -framework Foundation
