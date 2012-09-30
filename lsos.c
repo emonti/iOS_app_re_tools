@@ -7,7 +7,7 @@
  * i didn't feel like setting up my opensource dev environment to re-build
  * and debug it from the source.
  
- * pretty sure i stole this from amit signh or somebody?
+ * pretty sure i stole this from amit singh or somebody?
  */
 
 #include <unistd.h>
