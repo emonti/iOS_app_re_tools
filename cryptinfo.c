@@ -8,7 +8,7 @@
 #include <string.h>
 #include <unistd.h>
 
-#if TARGET_IPHONE_SIMULATOR && !defined(LC_ENCRYPTION_INFO)
+#if !defined(LC_ENCRYPTION_INFO)
 #define LC_ENCRYPTION_INFO 0x21
 
 struct encryption_info_command {
