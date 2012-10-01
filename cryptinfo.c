@@ -8,11 +8,6 @@
 #include <string.h>
 #include <unistd.h>
 
-/* The encryption info struct and constants are missing from the 
- * iPhoneSimulator SDK, but not from the iPhoneOS or Mac OS X SDKs. Since one 
- * doesn't ever ship a Simulator binary, we'll just provide the definitions 
- * here. 
- */
 #if TARGET_IPHONE_SIMULATOR && !defined(LC_ENCRYPTION_INFO)
 #define LC_ENCRYPTION_INFO 0x21
 
@@ -42,23 +37,23 @@ int do_patch=0;
 
 char *cputypes[19] = {
     "NULL",     // 0
-    "VAX",      // 1
-    "UNK2",     // 2
-    "UNK3",     // 3
-    "UNK4",     // 4
-    "UNK5",     // 5
-    "MC680x0",  // 6
-    "X86",      // 7
-    "MIPS",     // 8
-    "UNK9",     // 9
-    "MC98000",  // 10
-    "HPPA",     // 11
-    "ARM",      // 12
-    "MC88000",  // 13
-    "SPARC",    // 14
-    "I860",     // 15
-    "ALPHA",    // 16
-    "UNK17",    // 17
+    "VAX",
+    "UNK2",
+    "UNK3",
+    "UNK4",
+    "UNK5",
+    "MC680x0",
+    "X86",
+    "MIPS",
+    "UNK9",
+    "MC98000",
+    "HPPA",
+    "ARM",
+    "MC88000",
+    "SPARC",
+    "I860",
+    "ALPHA",
+    "UNK17",
     "PPC",      // 18
 };
 
@@ -69,7 +64,7 @@ int dump_mh_cryptinfo(char *pinput, int ncmds, uint32_t offset) {
     for(i=0; i < ncmds; i++) {
         struct load_command *lc = (struct load_command *) ptr;
 
-        /* look for Encryption info segment */
+        /* find the encryption info segment */
         if(lc->cmd == LC_ENCRYPTION_INFO) {
             struct encryption_info_command *crypt_cmd = (struct encryption_info_command *) lc;
 
@@ -94,15 +89,7 @@ int dump_mh_cryptinfo(char *pinput, int ncmds, uint32_t offset) {
 }
 
 int dump_mach_hdr_32(HDR *mh) {
-   //struct mach_header {
-   //         uint32_t        magic;          /* mach magic number identifier */
-   //         cpu_type_t      cputype;        /* cpu specifier */
-   //         cpu_subtype_t   cpusubtype;     /* machine specifier */
-   //         uint32_t        filetype;       /* type of file */
-   //         uint32_t        ncmds;          /* number of load commands */
-   //         uint32_t        sizeofcmds;     /* the size of all the load commands */
-   //         uint32_t        flags;          /* flags */
-   // };
+
     char *      cputype_str;
     cpu_type_t  cputype = (mh->mach_header_64.cputype & ~CPU_ARCH_MASK);
 
