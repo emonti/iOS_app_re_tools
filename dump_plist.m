@@ -1,6 +1,4 @@
-/* 
- * Author: Eric Monti - Trustwave SpiderLabs
- * Date: 10/20/2010
+/* dump_plist - Handy if you don't have plutil around.
  *
  * Compile with:
  *   gcc -o dump_plist dump_plist.m -framework Foundation
