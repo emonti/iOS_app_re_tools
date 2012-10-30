@@ -1,3 +1,10 @@
+/*
+ * This tool requires keychain entitlements to work.
+ * If you're using ldid - run 'dump_keychain -p' to get them
+ * If you use codesign, run 'dump_keychain -P keychain.xcent'
+ *
+ */
+
 #import <Foundation/Foundation.h>
 #import <Security/Security.h>
 #import <sqlite3.h>
@@ -13,12 +20,12 @@ void dump_keychain(char *name, id secClass)
     [dct setObject:(id)kSecMatchLimitAll forKey:(id)kSecMatchLimit];
     [dct setObject:(id)kCFBooleanTrue forKey:(id)kSecReturnAttributes];
     [dct setObject:(id)kCFBooleanTrue forKey:(id)kSecReturnData];
-    
+
     if (SecItemCopyMatching((CFDictionaryRef)dct, (CFTypeRef *)&kc) == noErr)
         printf("\n[*] %s Keychain:\n%s\n\n", name, [[kc description] UTF8String]);
     else
         fprintf(stderr, "Error: %s items could not be dumped\n\n", name);
-} 
+}
 
 
 void dump_result_as_plist(sqlite3_stmt *stmt, FILE *output)
