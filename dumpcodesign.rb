@@ -1,4 +1,14 @@
 #!/usr/bin/env ruby
+# Author: Eric Monti - Jan/18/2013
+#
+# = Synopsis:
+# A basic parser and dumper for Apple's codesigning blobs for
+# research purposes.
+#
+# = Credit:
+# Large portions of the comments and class naming were derived from
+# Apple's libsecurity source available at opensource.apple.com
+#
 require 'stringio'
 
 class StringStream < StringIO
